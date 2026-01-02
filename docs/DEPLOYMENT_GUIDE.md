@@ -37,7 +37,7 @@ This solution is a regional solution and can / may be deployed independently in 
 
 ## Architecture diagram
 
-![](./media/image001.png)
+![](/docs/media/image001.png)
 
 *Fig 1. Netskope Private Access Publisher with Amazon EC2 Auto Scaling*
 
@@ -57,7 +57,7 @@ and so on.
 
 This naming convention allows you to run multiple NPA Publishers EC2 Auto Scaling groups in the same AWS region or in the different AWS regions while still serving the same Netskope tenant. This also allows you to run multiple NPA Publishers EC2 Auto Scaling groups in one AWS region while serving different Netskope Private Apps in one Netskope tenant. The example on the diagram below illustrates the above
 
-![](./media/image005.png) </br>
+![](/docs/media/image005.png) </br>
 *Fig 2. Cross Region Multiple Publishers Groups* </br>
 
 
@@ -68,19 +68,19 @@ This naming convention allows you to run multiple NPA Publishers EC2 Auto Scalin
 
 1.1. Netskope Private Access Publisher AMI is available from AWS Marketplace:
 
-![](./media/image006.png)
+![](/docs/media/image006.png)
 
 1.1.2. Go to AMI Catalog, AWS Marketplace AMIs and type Netskope in the search bar. Click Select on the Netskope Private Access Publisher.
 
-![](./media/image002.png)
+![](/docs/media/image002.png)
 
 1.1.3. Click Continue:
 
-![](./media/image003.png)
+![](/docs/media/image003.png)
 
 1.1.4. Click Launch Instance with AMI:
 
-![](./media/image004.png)
+![](/docs/media/image004.png)
 
 1.1.5. Copy the AMI ID (ami-xxxxxxxxx) and save it for later.
 
@@ -94,13 +94,13 @@ Note: The AMI ID is region specific. You will need to use the AMI ID for the reg
 
 1.2.3. Choose **Upload a template file** then click on Choose file. Choose the NPAPublisherAutoscalling.yaml from the directory on your disk where you downloaded it to, click **Open** and then click **Next**.
 
-![](./media/image007.png)
+![](/docs/media/image007.png)
 
 1.2.4. Specify Stack Details:
 
-![](./media/image008.png)
+![](/docs/media/image008.png)
 
-![](./media/image009.png)
+![](/docs/media/image009.png)
 
 **Parameters description**
 | Parameter | Description | Example |
@@ -125,51 +125,51 @@ Note: The AMI ID is region specific. You will need to use the AMI ID for the reg
 1.2.6 At the Configure Stack options screen click **Next**
 
 1.2.7. Review the Stack Deployment parameters and check "**I acknowledge that AWS CloudFormation might create IAM resources with custom names.**"
-![](./media/image010.png)
+![](/docs/media/image010.png)
 
 
 1.2.8. Click **Submit**
 
 1.2.9. Wait for few minutes for stack creation to complete.
 
-![](./media/image011.png)
+![](/docs/media/image011.png)
 
 1.2.10. When the stack creation successfully completed you should see CREATE_COMPLETE status.
 
-![](./media/image012.png)
+![](/docs/media/image012.png)
 
 1.2.11. Navigate to **Resources** tab and validate all resources got created
 
  Click on the NPAPublisherSecurityGroup resource and check the Inbound and Outbound rules for the EC2 Auto Scaling Instances:
 
-![](./media/image013.png)![](./media/image014.png)
+![](/docs/media/image013.png)![](/docs/media/image014.png)
 
 
  Click on the NPACallNetskopeAPIv2LF function and check its Event Trigger:
 
-![](./media/image015.png)
+![](/docs/media/image015.png)
 
 
 Click on the Auto Scaling group and verify desired capacity was changed to the number you  specified when creating the stack:
 
-![](./media/image012.png)
+![](/docs/media/image012.png)
 
 Navigate to **Instances** to see the NPA Publisher EC2 instances created:
 
-![](./media/image016.png)
+![](/docs/media/image016.png)
 
 1.2.12. Open CloudWatch Logs (from NPACallNetskopeAPIv2LF Lambda Function *Monitor* tab) and verify the publishers were successfully provisioned in your Netskope tenant.
 
-![](./media/image017.png)
+![](/docs/media/image017.png)
 
 1.2.13. Login to your Netskope tenant. Navigate to Setting → Security Cloud Platform → Publishers and verify the new Publishers exist and are registered:
 
-![](./media/image018.png)
+![](/docs/media/image018.png)
 
 
 1.2.14. Validate the publishers are being added to the Private Apps automatically by adding your Publisher EC2 Auto Scalling Group name to the existing Private Application's name or adding new Application following the naming convention requirements
 
- ![](./media/image019.png)
+ ![](/docs/media/image019.png)
 
 Congratulations! Your NPA Publisher EC2 Auto Scalling group deployment is complete.
 
