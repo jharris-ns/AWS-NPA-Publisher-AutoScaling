@@ -1,0 +1,112 @@
+# Pre-commit hooks for AWS NPA Publisher Auto Scaling
+# Compliant with CFT-SPEC Section 5: Validation and Testing
+#
+# Install: pip install pre-commit
+# Setup: pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  # ============================================================================
+  # CFT-SPEC V1: Syntax Validation (cfn-lint)
+  # Acceptance: Zero E-level errors regarding schema validity or property types
+  # ============================================================================
+  - repo: https://github.com/aws-cloudformation/cfn-lint
+    rev: v1.43.1
+    hooks:
+      - id: cfn-lint
+        name: CFT-SPEC V1 - CloudFormation Syntax Validation
+        files: templates/.*\.(yaml|yml|json)$
+        args:
+          - --format=parseable
+          - --ignore-checks=W  # Only fail on Errors (E-level), not Warnings
+
+  # ============================================================================
+  # CFT-SPEC V2: Security Audit (cfn-nag)
+  # Acceptance: Zero high-severity (H-level) security warnings
+  # ============================================================================
+  - repo: https://github.com/stelligent/cfn_nag
+    rev: v0.8.10
+    hooks:
+      - id: cfn-nag
+        name: CFT-SPEC V2 - CloudFormation Security Audit
+        files: templates/.*\.(yaml|yml|json)$
+        args:
+          - --fail-on-warnings
+          - --deny-list-path=.cfn-nag-deny-list.yml
+
+  # ============================================================================
+  # Python Code Quality (for scripts/ directory)
+  # ============================================================================
+
+  # Python security scanning
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.9.2
+    hooks:
+      - id: bandit
+        name: Python Security Scanner
+        files: ^scripts/.*\.py$
+        args:
+          - -ll  # Only medium and high severity
+          - --skip=B101  # Skip assert_used
+
+  # Python linting
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.3.0
+    hooks:
+      - id: flake8
+        name: Python Linter
+        files: ^scripts/.*\.py$
+        args:
+          - --max-line-length=120
+          - --extend-ignore=E203,W503,T000,T001,T002,T003,T004,T005  # Ignore TODO/FIXME/XXX comments
+
+  # Python code formatting
+  - repo: https://github.com/psf/black
+    rev: 25.12.0
+    hooks:
+      - id: black
+        name: Python Code Formatter
+        language_version: python3.12
+        files: ^scripts/.*\.py$
+
+  # ============================================================================
+  # General Code Quality Checks
+  # ============================================================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        name: Trim Trailing Whitespace
+      - id: end-of-file-fixer
+        name: Fix End of Files
+      - id: check-yaml
+        name: Check YAML Syntax
+        args: ['--unsafe']  # Allow CloudFormation intrinsic functions
+      - id: check-json
+        name: Check JSON Syntax
+      - id: check-merge-conflict
+        name: Check for Merge Conflicts
+      - id: check-added-large-files
+        name: Check for Large Files
+        args: ['--maxkb=1000']
+      - id: detect-private-key
+        name: Detect Private Keys
+      - id: mixed-line-ending
+        name: Fix Mixed Line Endings
+        args: ['--fix=lf']
+
+  # ============================================================================
+  # Secret Detection
+  # ============================================================================
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        name: Detect Secrets in Code
+        args:
+          - --baseline
+          - .secrets.baseline
+        exclude: '(package-lock\.json|scripts/NPAPublisherAutoscalling/.*/.*)'
+
+# NOTE: CFT-SPEC V3 (TaskCat automated deployment) runs separately via CI/CD
+# NOTE: CFT-SPEC V4 (Parameter validation) is part of TaskCat test scenarios
