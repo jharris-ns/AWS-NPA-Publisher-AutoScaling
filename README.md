@@ -24,7 +24,7 @@ The solution deploys:
 - IAM roles with least privilege permissions
 - VPC Security Group with egress-only access
 
-![Architecture Diagram](docs/media/image001.png)
+![Architecture Diagram](docs/architecture-diagram.png)
 
 ## Quick Start
 
