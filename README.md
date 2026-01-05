@@ -269,8 +269,6 @@ Please ensure:
 ## Acknowledgments
 
 - Built for integration with [Netskope Private Access](https://www.netskope.com/products/private-access)
-- Leverages [AWS Quick Start](https://aws.amazon.com/quickstart/) best practices
-- Designed for [AWS Marketplace](https://aws.amazon.com/marketplace/) deployment
 
 ---
 
