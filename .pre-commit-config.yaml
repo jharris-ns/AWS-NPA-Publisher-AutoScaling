@@ -58,7 +58,7 @@ repos:
         files: ^scripts/.*\.py$
         args:
           - --max-line-length=120
-          - --extend-ignore=E203,W503,T000,T001,T002,T003,T004,T005  # Ignore TODO/FIXME/XXX comments
+          - --extend-ignore=E203,W503,T000,T001,T002,T003,T004,T005  # Ignore
 
   # Python code formatting
   - repo: https://github.com/psf/black
